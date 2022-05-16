@@ -1,0 +1,96 @@
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>JS lab Bot AI</title>
+    <style>
+        body {
+            margin: 20;
+            padding: 20;
+            font-family: Arial, serif;
+        }
+
+        h1 {
+            color: blue;
+        }
+	</style>
+</head>
+
+<body>
+
+<div id="app">
+    <h1 id="main-header">Cześć, jestem botem, mam na imię Klapaucjusz</h1>
+    <p>Lubię rozmawiać z komputerami białkowymi. Napiszesz coś do mnie?</p>
+</div>
+   	
+<div>	
+	<input type="text" id="textFieldId" size="100" >
+	<br><br>
+	<button id="przyciskZatwierdź" type="button" onclick="readValue()" >Zatwierdź</button>
+</div>
+
+<script> //Emuluje kliknięcie gdy nacikamy Enter
+	let input = document.getElementById("textFieldId");
+	input.addEventListener("keypress", function(event) {
+		if (event.key === "Enter") {
+		document.getElementById("przyciskZatwierdź").click();
+		}
+	});
+</script>
+
+<script>
+	let chatContent = [];
+	let text = "0";
+	let botWords = "";
+	let humanWords = "";
+	
+	function readValue(){
+		let input = document.getElementById("textFieldId").value;
+		chatContent.push(input); //zapamiętuje wprowadzane stringi w tablicy
+		humanWords = input;
+		document.getElementById("textFieldId").value = ""; //czyścipole tekstowe
+		humanTalks();
+		const myTimeout = setTimeout(botTalks, 1000);
+		window.scrollBy(0,200);
+	}
+	
+	function botTalks(){
+		const paragraph = document.createElement("p");
+		paragraph.style.color = 'red';
+		paragraph.style.marginLeft = "20px";
+		wouldLikeToBeAI();
+		paragraph.innerText = "Bot: " + botWords;
+		document.body.appendChild(paragraph);
+	}
+		
+	function humanTalks(){
+		const paragraph = document.createElement("p");
+		paragraph.style.color = 'green';
+		paragraph.style.marginTop = "30px";
+		paragraph.innerText = "Ty: " + humanWords;
+		document.body.appendChild(paragraph);
+	}
+	
+	function wouldLikeToBeAI (){
+	let botAnswers = ["Nie rozumiem co piszesz", "Pisz drukowanymi", "Boli mnie głowa", "Chyba jesteś nie w sosie?",
+	"Proszę nie męcz mnie", "Mowa jest srebrem a milczenie złotem", "Nie wyglądasz dobrze w kamerce", "Uczesz się", 
+	"Chyba mnie nie lubisz", "Zainwestuj w nowy komputer", "Ostatnie zdanie"];
+	botWords = botAnswers[Math.floor(Math.random() * 10)];
+		for (let i = 1, len = chatContent.length ; i < (len-1); i++) {
+			if (humanWords === chatContent[i]){
+			botWords = "Nie powtarzaj się, " + chatContent[i+1]; 
+			break;
+			}
+		}
+	chatContent.push(botWords); //zapisuje odpowiedź
+	}
+	
+		
+</script>
+
+<script>
+    alert('Cześć, jestem botem intelligentnym inaczej');
+</script>
+
+</body>
+
+</html>
